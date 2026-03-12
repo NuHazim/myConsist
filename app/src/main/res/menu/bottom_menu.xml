@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reminderFragment"
+        android:title="Reminder"
+        android:icon="@drawable/ic_reminder" />
+    <item
+        android:id="@+id/todolistFragment"
+        android:title="To Do List"
+        android:icon="@drawable/ic_todolist" />
+    <item
+        android:id="@+id/habitsFragment"
+        android:title="Habits"
+        android:icon="@drawable/ic_habits" />
+</menu>

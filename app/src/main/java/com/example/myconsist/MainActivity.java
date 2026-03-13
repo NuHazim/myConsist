@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav=findViewById(R.id.bottomNav);
         if(savedInstanceState==null){
             loadFragment(new ToDoListFragment(),"To Do List");
+            bottomNav.setSelectedItemId(R.id.todolistFragment);
         }
         bottomNav.setOnItemSelectedListener(item->{
             Fragment selectedFrag=null;

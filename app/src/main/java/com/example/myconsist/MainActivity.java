@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 🔹 Load default fragment
         if (savedInstanceState == null) {
-            loadFragment(new ToDoListFragment(), "To Do List");
+            loadFragment(new ToDoListFragment(), "To Do List", R.id.todolistFragment);
         }
 
         // 🔹 Handle sidebar clicks
@@ -64,19 +64,17 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.reminderFragment) {
                 fragment = new ReminderFragment();
                 title = "Reminders";
-
             } else if (id == R.id.todolistFragment) {
                 fragment = new ToDoListFragment();
                 title = "To Do List";
-
             } else if (id == R.id.habitsFragment) {
                 fragment = new HabitsFragment();
                 title = "Habits Tracker";
             }
 
             if (fragment != null) {
-                loadFragment(fragment, title);
-                drawerLayout.closeDrawer(GravityCompat.START); // ✅ close properly
+                loadFragment(fragment, title, id); // pass `id` directly
+                drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
 
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 🔹 Reusable fragment loader
-    public void loadFragment(Fragment fragment, String title) {
+    public void loadFragment(Fragment fragment, String title, int menuItemId) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
@@ -94,5 +92,7 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
+
+        navView.setCheckedItem(menuItemId); // ✅ highlights the active item
     }
 }

@@ -1,59 +1,98 @@
 package com.example.myconsist;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    DrawerLayout drawerLayout;
+    NavigationView navView;
+    Toolbar appBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar appBar=findViewById(R.id.appBar);
+
+        // Initialize views
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navView = findViewById(R.id.navView);
+        appBar = findViewById(R.id.appBar);
+
+        // Setup toolbar
         setSupportActionBar(appBar);
-        BottomNavigationView bottomNav=findViewById(R.id.bottomNav);
-        if(savedInstanceState==null){
-            loadFragment(new ToDoListFragment(),"To Do List");
-            bottomNav.setSelectedItemId(R.id.todolistFragment);
+
+        // THIS WAS MISSING (hamburger toggle)
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                appBar,
+                R.string.open,
+                R.string.close
+        );
+        View headerView = navView.getHeaderView(0);
+        ImageView closeBtn = headerView.findViewById(R.id.closeDrawerBtn);
+
+        closeBtn.setOnClickListener(v -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        });
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        // 🔹 Load default fragment
+        if (savedInstanceState == null) {
+            loadFragment(new ToDoListFragment(), "To Do List");
         }
-        bottomNav.setOnItemSelectedListener(item->{
-            Fragment selectedFrag=null;
-            String title="";
-            int id=item.getItemId();
-            if(id==R.id.todolistFragment){
-                selectedFrag=new ToDoListFragment();
-                title="To Do List";
+
+        // 🔹 Handle sidebar clicks
+        navView.setNavigationItemSelectedListener(item -> {
+
+            Fragment fragment = null;
+            String title = "";
+            int id = item.getItemId();
+
+            if (id == R.id.reminderFragment) {
+                fragment = new ReminderFragment();
+                title = "Reminders";
+
+            } else if (id == R.id.todolistFragment) {
+                fragment = new ToDoListFragment();
+                title = "To Do List";
+
+            } else if (id == R.id.habitsFragment) {
+                fragment = new HabitsFragment();
+                title = "Habits Tracker";
             }
-            else if(id==R.id.habitsFragment){
-                selectedFrag=new HabitsFragment();
-                title="Habits Tracker";
-            }
-            else if(id==R.id.reminderFragment){
-                selectedFrag=new ReminderFragment();
-                title="Reminders";
-            }
-            if(selectedFrag!=null){
-                loadFragment(selectedFrag,title);
+
+            if (fragment != null) {
+                loadFragment(fragment, title);
+                drawerLayout.closeDrawer(GravityCompat.START); // ✅ close properly
                 return true;
             }
-           return false;
+
+            return false;
         });
     }
-    public void loadFragment(Fragment fragment,String title){
+
+    // 🔹 Reusable fragment loader
+    public void loadFragment(Fragment fragment, String title) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainer,fragment)
-                .addToBackStack(null)
+                .replace(R.id.fragmentContainer, fragment)
                 .commit();
-        getSupportActionBar().setTitle((title));
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 }

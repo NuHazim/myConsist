@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ToDoListFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            style="@style/MyEditTextStyle"
             android:hint="Enter group text ..."/>
         <Button
             android:layout_width="wrap_content"
@@ -32,14 +34,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/theGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:padding="10dp"
+            android:background="@drawable/group_styles">
 
             <TextView
                 android:id="@+id/groupName"
-                android:layout_width="295dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:text="Test Details"
                 app:layout_constraintEnd_toStartOf="@+id/delButton"
                 app:layout_constraintHorizontal_bias="0.571"
@@ -107,6 +113,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/MyEditTextStyle"
                     android:hint="Add new Item" />
 
                 <LinearLayout
@@ -119,6 +126,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        style="@style/MyEditTextStyle"
                         android:hint="dd/mm/yyyy | --:-- am/pm"
                         android:focusable="false"
                         android:clickable="true"/>

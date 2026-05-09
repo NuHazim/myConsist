@@ -13,17 +13,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp">
+        android:paddingVertical="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/group_styles">
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/MyEditTextStyle"
-            android:hint="Enter group text ..."/>
+            android:hint="Enter group text ..."
+            android:layout_marginRight="10dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"/>
+            android:text="+"
+            android:backgroundTint="#06b6d4"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/listBox"
@@ -36,14 +40,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:padding="10dp"
+            android:padding="20dp"
             android:background="@drawable/group_styles">
 
             <TextView
                 android:id="@+id/groupName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="5dp"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:text="Test Details"
@@ -52,13 +57,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <TextView
                 android:id="@+id/delButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:text="Del"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="5dp"
+                android:text="&#xf1f8;"
+                android:textSize="16sp"
+                android:fontFamily="@font/fa_solid_900"
+                android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,28 +92,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_margin="10dp">
+                        android:layout_margin="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:background="@drawable/itembox_styles">
+
                         <CheckBox
                             android:id="@+id/checkboxItem"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
                         <TextView
                             android:id="@+id/nameItem"
                             android:layout_width="0dp"
+                            android:textColor="@color/white"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Goon"/>
                         <TextView
                             android:id="@+id/dateItem"
                             android:layout_width="0dp"
+                            android:textColor="@color/white"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="date"/>
-                        <Button
+                        <TextView
                             android:id="@+id/delItemButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Del"/>
+                            android:text="&#xf1f8;"
+                            android:textSize="16sp"
+                            android:textColor="#FF0000"
+                            android:fontFamily="@font/fa_solid_900"/>
 
                     </LinearLayout>
 
@@ -127,13 +143,13 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         style="@style/MyEditTextStyle"
-                        android:hint="dd/mm/yyyy | --:-- am/pm"
-                        android:focusable="false"
-                        android:clickable="true"/>
+                        android:hint="dd/mm/yyyy --:-- --"
+                        android:layout_marginRight="10dp"/>
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="#06b6d4"
                         android:text="+" />
                 </LinearLayout>
             </LinearLayout>

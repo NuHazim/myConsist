@@ -17,14 +17,18 @@ public class ToDoListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_list, container, false);
         TextView groupName=view.findViewById(R.id.groupName);
+
         LinearLayout theGroupDetails=view.findViewById(R.id.theGroupDetails);
         groupName.setOnClickListener(v->{
             if(theGroupDetails.getVisibility()==View.VISIBLE){
                 theGroupDetails.setVisibility(View.GONE);
+
             }else{
                 theGroupDetails.setVisibility((View.VISIBLE));
             }
         });
+
+
         return view;
     }
 }

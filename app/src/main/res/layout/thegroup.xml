@@ -53,6 +53,7 @@
         android:layout_marginTop="30dp">
     </LinearLayout>
     <EditText
+        android:id="@+id/taskInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/MyEditTextStyle"
@@ -73,6 +74,7 @@
             android:layout_marginRight="10dp"/>
 
         <Button
+            android:id="@+id/addTaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#06b6d4"

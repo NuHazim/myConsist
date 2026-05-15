@@ -102,46 +102,6 @@ Records whether a habit was completed on a specific date.
 - `Habit` → `HabitLog` : one-to-many (one habit has many daily log entries)
 
 ---
-
-## Project Structure
-
-```
-com.example.myconsist/
-│
-├── db/
-│   └── AppDatabase.java          # Room database singleton
-│
-├── entity/
-│   ├── TaskGroup.java
-│   ├── Task.java
-│   ├── Habit.java
-│   └── HabitLog.java
-│
-├── relation/
-│   ├── TaskGroupWithTask.java
-│   └── HabitWithHabitLog.java
-│
-├── dao/
-│   ├── TaskGroupDao.java
-│   ├── TaskDao.java
-│   ├── HabitDao.java
-│   └── HabitLogDao.java
-│
-├── repository/
-│   └── TaskRepository.java
-│
-├── viewmodel/
-│   └── TaskViewModel.java
-│
-└── ui/
-    ├── MainActivity.java
-    ├── TodolistFragment.java
-    ├── ReminderFragment.java
-    └── HabitsFragment.java
-```
-
----
-
 ## Key Design Decisions
 
 **Why `deadlineMs` is stored as `Long`**

@@ -1,5 +1,6 @@
 package com.example.myconsist;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ToDoListFragment extends Fragment {
 
@@ -44,7 +49,6 @@ public class ToDoListFragment extends Fragment {
         addGroupButton.setOnClickListener(v -> {
             String groupName = groupInput.getText().toString().trim();
             if (!groupName.isEmpty()) {
-                // For position, we'll just use 0 or count for now
                 int position = 0; 
                 TaskGroup newGroup = new TaskGroup(groupName, position);
                 dao.insert(newGroup);
@@ -86,6 +90,19 @@ public class ToDoListFragment extends Fragment {
 
             groupNameTv.setText(group.getGroupName());
 
+            // Date Picker logic for this specific group
+            dateInput.setFocusable(false);
+            dateInput.setClickable(true);
+            dateInput.setOnClickListener(v -> {
+                final Calendar calendar = Calendar.getInstance();
+                new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
+                    calendar.set(year, month, dayOfMonth);
+                    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                    dateInput.setText(sdf.format(calendar.getTime()));
+                    dateInput.setTag(calendar.getTimeInMillis());
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+            });
+
             // Toggle Expand/Collapse
             groupNameTv.setOnClickListener(v -> {
                 if (groupDetails.getVisibility() == View.VISIBLE) {
@@ -97,8 +114,6 @@ public class ToDoListFragment extends Fragment {
 
             // Delete Group
             delGroupBtn.setOnClickListener(v -> {
-                // Note: You might want to delete tasks associated with this group too
-                // But if your DB has Cascade Delete, Room handles it.
                 dao.delete(group);
             });
 
@@ -106,13 +121,16 @@ public class ToDoListFragment extends Fragment {
             addTaskBtn.setOnClickListener(v -> {
                 String taskTitle = taskInput.getText().toString().trim();
                 if (!taskTitle.isEmpty()) {
-                    // Simple position logic
+                    Long selectedMs = (Long) dateInput.getTag();
+                    long deadlineMs = (selectedMs != null) ? selectedMs : 0L;
                     int pos = tasks != null ? tasks.size() : 0;
-                    // For now, setting deadline to 0. You can add a DatePicker later.
-                    Task newTask = new Task(group.getGroupId(), taskTitle, 0, 0, pos);
+                    
+                    Task newTask = new Task(group.getGroupId(), taskTitle, 0, deadlineMs, pos);
                     dao.insert(newTask);
+                    
                     taskInput.setText("");
                     dateInput.setText("");
+                    dateInput.setTag(null);
                 }
             });
 
@@ -129,9 +147,11 @@ public class ToDoListFragment extends Fragment {
                     taskName.setText(task.getTitle());
                     checkBox.setChecked(task.getIsDone() == 1);
                     
-                    // Display date if it exists (placeholder logic)
+                    // Display date with year if it exists
                     if (task.getDeadlineMs() > 0) {
-                        taskDate.setText("Due: " + task.getDeadlineMs()); 
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                        taskDate.setText(sdf.format(new Date(task.getDeadlineMs())));
+                        taskDate.setVisibility(View.VISIBLE);
                     } else {
                         taskDate.setVisibility(View.GONE);
                     }

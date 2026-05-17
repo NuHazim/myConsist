@@ -4,7 +4,8 @@
     android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#5871FF"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:paddingTop="24dp">
 
     <!-- Title -->
     <TextView

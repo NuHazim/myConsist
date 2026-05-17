@@ -1,7 +1,9 @@
 package com.example.myconsist;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Window window = getWindow();
+        window.setStatusBarColor(Color.parseColor("#111827"));
+        window.setNavigationBarColor(Color.parseColor("#111827"));
         // Initialize views
         drawerLayout = findViewById(R.id.drawerLayout);
         navView = findViewById(R.id.navView);
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup toolbar
         setSupportActionBar(appBar);
+//        appBar.getNavigationIcon().setTint(Color.parseColor("#06b6d4"));
 
         // THIS WAS MISSING (hamburger toggle)
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.open,
                 R.string.close
         );
+
         View headerView = navView.getHeaderView(0);
         ImageView closeBtn = headerView.findViewById(R.id.closeDrawerBtn);
 

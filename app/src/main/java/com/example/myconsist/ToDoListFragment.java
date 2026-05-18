@@ -1,6 +1,7 @@
 package com.example.myconsist;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,16 +91,30 @@ public class ToDoListFragment extends Fragment {
 
             groupNameTv.setText(group.getGroupName());
 
-            // Date Picker logic for this specific group
+            // Chained Date and Time Picker logic
             dateInput.setFocusable(false);
             dateInput.setClickable(true);
             dateInput.setOnClickListener(v -> {
                 final Calendar calendar = Calendar.getInstance();
+                
+                // 1. Show Date Picker
                 new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
-                    calendar.set(year, month, dayOfMonth);
-                    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-                    dateInput.setText(sdf.format(calendar.getTime()));
-                    dateInput.setTag(calendar.getTimeInMillis());
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, month);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                    // 2. Immediately Show Time Picker
+                    new TimePickerDialog(requireContext(), (view1, hourOfDay, minute) -> {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+
+                        // Format including time
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
+                        dateInput.setText(sdf.format(calendar.getTime()));
+                        dateInput.setTag(calendar.getTimeInMillis());
+                        
+                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             });
 
@@ -147,9 +162,9 @@ public class ToDoListFragment extends Fragment {
                     taskName.setText(task.getTitle());
                     checkBox.setChecked(task.getIsDone() == 1);
                     
-                    // Display date with year if it exists
+                    // Display date and time if it exists
                     if (task.getDeadlineMs() > 0) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
                         taskDate.setText(sdf.format(new Date(task.getDeadlineMs())));
                         taskDate.setVisibility(View.VISIBLE);
                     } else {

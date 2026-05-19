@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:paddingVertical="10dp"
     android:paddingHorizontal="16dp"
+    android:layout_marginVertical="5dp"
     android:background="@drawable/overdue_style">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -67,9 +68,10 @@
             android:textColor="#fb64b6"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="14 days overdue"
+        android:text="Overdue"
         android:textSize="20sp"
         android:textColor="#fb64b6"
         android:layout_marginVertical="10dp"/>

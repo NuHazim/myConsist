@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:paddingVertical="10dp"
     android:paddingHorizontal="16dp"
+    android:layout_marginVertical="5dp"
     android:background="@drawable/completed_style">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -76,9 +77,10 @@
             android:textColor="#4dff91"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tomorrow"
+        android:text="Task Completed"
         android:textSize="20sp"
         android:textColor="#4dff91"
         android:layout_marginVertical="10dp"/>

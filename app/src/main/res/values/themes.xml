@@ -1,10 +1,11 @@
 <resources>
     <style name="Base.Theme.MyConsist" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor">#111827</item>
-        <item name="android:navigationBarColor">#111827</item>
+        <item name="android:statusBarColor">#111820</item>
+        <item name="android:navigationBarColor">#111820</item>
+        <item name="android:windowBackground">#111820</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorPrimary">#111827</item>
-        <item name="colorPrimaryDark">#111827</item>
+        <item name="colorPrimary">#111820</item>
+        <item name="colorPrimaryDark">#111820</item>
     </style>
 
     <style name="Theme.MyConsist" parent="Base.Theme.MyConsist" />

@@ -31,11 +31,17 @@ public class ToDoListFragment extends Fragment {
     private LinearLayout listBox;
     private EditText groupInput;
     private Button addGroupButton;
+    private long targetGroupId = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_list, container, false);
+
+        // Check for arguments (deep link from Reminders)
+        if (getArguments() != null) {
+            targetGroupId = getArguments().getLong("targetGroupId", -1);
+        }
 
         // Initialize Database
         db = appDatabase.getInstance(requireContext());
@@ -118,6 +124,13 @@ public class ToDoListFragment extends Fragment {
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             });
 
+            // Auto-expand if this is the target group from Reminders
+            if (group.getGroupId() == targetGroupId) {
+                groupDetails.setVisibility(View.VISIBLE);
+            } else {
+                groupDetails.setVisibility(View.GONE);
+            }
+
             // Toggle Expand/Collapse
             groupNameTv.setOnClickListener(v -> {
                 if (groupDetails.getVisibility() == View.VISIBLE) {
@@ -188,5 +201,9 @@ public class ToDoListFragment extends Fragment {
 
             listBox.addView(groupView);
         }
+        
+        // Clear target once rendered so subsequent updates (like adding a task) 
+        // don't force-collapse other groups if user has expanded them.
+        targetGroupId = -1;
     }
 }

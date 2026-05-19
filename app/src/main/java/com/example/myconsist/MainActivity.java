@@ -24,20 +24,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Use the standard layout behavior (respects system bars)
         setContentView(R.layout.activity_main);
+        
         Window window = getWindow();
-        window.setStatusBarColor(Color.parseColor("#111827"));
-        window.setNavigationBarColor(Color.parseColor("#111827"));
-        // Initialize views
+        String darkColor = "#111820";
+        window.setStatusBarColor(Color.parseColor(darkColor));
+        
+        // This is what removes the "white thing" at the bottom
+        window.setNavigationBarColor(Color.parseColor(darkColor));
+        
         drawerLayout = findViewById(R.id.drawerLayout);
         navView = findViewById(R.id.navView);
         appBar = findViewById(R.id.appBar);
 
-        // Setup toolbar
         setSupportActionBar(appBar);
-//        appBar.getNavigationIcon().setTint(Color.parseColor("#06b6d4"));
 
-        // THIS WAS MISSING (hamburger toggle)
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -55,14 +58,11 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // 🔹 Load default fragment
         if (savedInstanceState == null) {
             loadFragment(new ToDoListFragment(), "To Do List", R.id.todolistFragment);
         }
 
-        // 🔹 Handle sidebar clicks
         navView.setNavigationItemSelectedListener(item -> {
-
             Fragment fragment = null;
             String title = "";
             int id = item.getItemId();
@@ -79,16 +79,24 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (fragment != null) {
-                loadFragment(fragment, title, id); // pass `id` directly
+                loadFragment(fragment, title, id);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
-
             return false;
         });
     }
 
-    // 🔹 Reusable fragment loader
+    public void navigateToTodoList(long groupId) {
+        ToDoListFragment fragment = new ToDoListFragment();
+        if (groupId != -1) {
+            Bundle args = new Bundle();
+            args.putLong("targetGroupId", groupId);
+            fragment.setArguments(args);
+        }
+        loadFragment(fragment, "To Do List", R.id.todolistFragment);
+    }
+
     public void loadFragment(Fragment fragment, String title, int menuItemId) {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -98,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
-
-        navView.setCheckedItem(menuItemId); // ✅ highlights the active item
+        navView.setCheckedItem(menuItemId);
     }
 }
